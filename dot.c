@@ -7,5 +7,5 @@ void initDot2f(dot2f* dot, float x, float y) {
 }
 
 void showDot2f(dot2f* dot) {
-    printf("x: %.2f\ty: %.2f\n", dot->x, dot->y);
+    printf("x: %5.2f y: %5.2f\n", dot->x, dot->y);
 }

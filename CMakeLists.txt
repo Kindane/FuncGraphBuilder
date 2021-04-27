@@ -6,7 +6,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 
 
-add_executable(fgb quadratic.c dot.c)
+add_executable(fgb frLinear.c dot.c)
 
 target_link_libraries(fgb
     ${OPENGL_LIBRARIES}
