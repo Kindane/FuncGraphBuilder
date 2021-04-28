@@ -30,8 +30,9 @@ void linearFunc(dot2f* buf, float k, float b) {
  */
 void fractionLinearFunc(dot2f* buf, float k) {
     if (k == 0) {
-        fprintf(stderr, "k cannot be zero, return NULL.\n");
+        fprintf(stderr, "k cannot be zero, now BUF = 0, return.\n");
         memset(buf, 0, 1);
+        return;
     }
     dot2f resultArr[6];
     memset(resultArr, 0, 5);
@@ -50,7 +51,7 @@ void fractionLinearFunc(dot2f* buf, float k) {
  */
 void quadraticFunc(dot2f* buf, float a, float b, float c) {
     if (a == 0) {
-        fprintf(stderr, "Error! param `a` cannot be ZERO, return NULL.\n");
+        fprintf(stderr, "Error! param `a` cannot be ZERO, now BUF = 0, return.\n");
         memset(buf, 0, 1);
         return;
     }
