@@ -3,7 +3,7 @@
  */
 #include <stdio.h>
 #include <GL/glut.h>
-// ~~TODO REFACTOR ALL CODE!!~~ DONE
+#include "functions.h"
 
 void init();
 

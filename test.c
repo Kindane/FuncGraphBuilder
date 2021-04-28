@@ -1,10 +1,12 @@
-#include "dot.h"
+#include "functions.h"
 
 int main() {
-    float value = 2.5;
-    printf("VALUE = %f\n", value);
-    printf("round = %f\n", round(value));
-    printf("floor = %f\n", floor(value));
-    printf("ceil = %f\n", ceil(value));
+    int n = 7;
+    dot2f* arr = (dot2f*)malloc(sizeof(dot2f)*n);
+    quadraticFunc(arr, 1, -7, 10);
+    for (int i = 0; i < n; i++) {
+        showDot2f(&arr[i]);
+    }
+    free(arr);
     return 0;
 }
