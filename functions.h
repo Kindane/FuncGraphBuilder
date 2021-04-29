@@ -11,11 +11,15 @@ typedef struct {
     float x, y;
 } dot2f;
 
+enum funcType {
+    Linear = 1,
+    Quadratic = 2,
+    FractionLinear = 3
+};
+
 void initDot2f(dot2f* dot, float x, float y);
 
 void showDot2f(dot2f* dot);
-
-void *memset(void *str, int c, size_t n);
 
 /*
  * f(x) = kx + b

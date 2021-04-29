@@ -6,7 +6,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 
 
-add_executable(fgb test.c functions.c)
+add_executable(fgb builder.c functions.c)
 
 target_link_libraries(fgb
     ${OPENGL_LIBRARIES}
