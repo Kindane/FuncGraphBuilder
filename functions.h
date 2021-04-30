@@ -11,11 +11,11 @@ typedef struct {
     float x, y;
 } dot2f;
 
-enum funcType {
+typedef enum funcType {
     Linear = 1,
     Quadratic = 2,
     FractionLinear = 3
-};
+} funcType_t;
 
 void initDot2f(dot2f* dot, float x, float y);
 

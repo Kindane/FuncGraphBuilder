@@ -1,16 +1,25 @@
 /* author: Kindane
  * gcc -v: 10.2.0
  */
+
+/*
+* TODO: REFACTOR THIS F*CKING SHIT! OH MY EYES THIS HORRIBLE!! 
+*/
+
 #include <stdio.h>
 #include <GL/glut.h>
 #include "functions.h"
 
 void init();
-void drawFunction(dot2f* function, size_t dotCount);
+void drawQuadratic(dot2f* function);
+void drawLinear(dot2f* function);
+void drawFractionLinear(dot2f* function);
+void initDraw();
 
 static const float size_of_square = 0.05;
 static dot2f* buffer = NULL;
 static size_t sizeOfBuff = 0;
+funcType_t functionType;
 
 int main(int argc, char* argv[]) {
     if (argc < 5) {
@@ -19,7 +28,6 @@ int main(int argc, char* argv[]) {
         exit(1);
     }
 
-    int functionType;
     float param1, param2, param3;
     functionType = atoi(argv[1]);
     param1 = atof(argv[2]);
@@ -62,23 +70,71 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-void drawFunction(dot2f* function, size_t dotCount) {
-    glLineWidth(3);
+void initDraw() {
+    /* glLineWidth(5); does not work */
     glColor3f(1,0,0);
     glBegin(GL_LINES);
+}
 
-    for (size_t i = 0; i < dotCount; i++) {
-        if (isinf(function[i].x)) {continue;}
-        glVertex2f(function[i].x*size_of_square, function[i].y*size_of_square);
+void drawQuadratic(dot2f* function) {
+    initDraw();
+    float x01, x02;
+    /* OH MY GOD.. */
+    x01 = function[1].x;
+    x02 = function[2].x;
+    if (!isinf(x01)) {
+        x01 *= size_of_square;
     }
-    
+    if (!isinf(x02)) {
+        x02 *= size_of_square;
+    }
 
+    glVertex2f(function[3].x * size_of_square, function[3].y * size_of_square);
+    if (function[4].y * size_of_square > 0 && !isinf(x01)) {
+        glVertex2f(function[4].x * size_of_square, function[4].y * size_of_square);
+        glVertex2f(x01, 0); /* end of past */
+        glVertex2f(x01, 0); /* start of new */
+    }
+    else {
+        glVertex2f(function[4].x * size_of_square, function[4].y * size_of_square);
+    }
+    glVertex2f(function[4].x * size_of_square, function[4].y * size_of_square); /* connect last point to init dot */
+    glVertex2f(function[0].x * size_of_square, function[0].y * size_of_square); /* connect last point to init dot */
+
+    glVertex2f(function[0].x * size_of_square, function[0].y * size_of_square);
+    glVertex2f(function[5].x * size_of_square, function[5].y * size_of_square);
+    glVertex2f(function[5].x * size_of_square, function[5].y * size_of_square);
+
+    if (function[6].y * size_of_square > 0 && !isinf(x02)) {
+        glVertex2f(x02, 0); /* end of past */
+        glVertex2f(x02, 0); /* start of new */
+        glVertex2f(function[6].x * size_of_square, function[6].y * size_of_square);
+    }
+    else {
+        glVertex2f(function[6].x * size_of_square, function[6].y * size_of_square);
+    }
+}
+void drawLinear(dot2f* function) {
+    initDraw();
+    for (size_t i = 0; i < 2; i++)
+        glVertex2f(function[i].x * size_of_square, function[i].y * size_of_square);
     glEnd();
     glFlush();
 }
+void drawFractionLinear(dot2f* function) {
+    initDraw();
+    /* Pizdec nahoi blyat.. */
+    glVertex2f(function[0].x * size_of_square, function[0].y * size_of_square);
+    glVertex2f(function[1].x * size_of_square, function[1].y * size_of_square);
+    glVertex2f(function[1].x * size_of_square, function[1].y * size_of_square);
+    glVertex2f(function[2].x * size_of_square, function[2].y * size_of_square);
+    glVertex2f(function[3].x * size_of_square, function[3].y * size_of_square);
+    glVertex2f(function[4].x * size_of_square, function[4].y * size_of_square);
+    glVertex2f(function[4].x * size_of_square, function[4].y * size_of_square);
+    glVertex2f(function[5].x * size_of_square, function[5].y * size_of_square);
+}
 
-void init()
-{
+void init() {
     glClear(GL_COLOR_BUFFER_BIT);         /* clear color */
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f); /* bg color: can be from 0.0f to 1.0f */
 
@@ -111,7 +167,17 @@ void init()
         glVertex2f(1, i);
     }
 
+    switch (functionType)
+    {
+    case Linear:
+        drawLinear(buffer);
+        break;
+    case Quadratic:
+        drawQuadratic(buffer);
+        break;
+    case FractionLinear:
+        drawFractionLinear(buffer);
+    }
     glEnd();
     glFlush();
-    drawFunction(buffer, sizeOfBuff);
 }
