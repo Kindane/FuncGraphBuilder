@@ -18,8 +18,8 @@ void linearFunc(dot2f* buf, float k, float b) {
     dot2f resultArr[2];
     memset(resultArr, 0, 5);
 
-    initDot2f(&resultArr[0], 0, 0*k+b);
-    initDot2f(&resultArr[1], 1, 1*k+b);
+    initDot2f(&resultArr[0], -10, -10*k+b);
+    initDot2f(&resultArr[1], 10, 10*k+b);
 
     memcpy(buf, &resultArr, sizeof(dot2f)*2);
 }

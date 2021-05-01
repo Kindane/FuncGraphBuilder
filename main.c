@@ -1,7 +1,6 @@
 #include "functions.h"
 
-int main()
-{
+int main() {
     int choice;
     printf("Welcome to Function Graphic Builder.     \n");
     printf("What function do you want to draw?       \n");
@@ -37,27 +36,27 @@ int main()
         printf("Enter k: "); scanf("%f", &firstParam);
         printf("Enter b: "); scanf("%f", &secondParam);
         thirdParam = INFINITY;
-        /* TODO ...*/
         break;
     case Quadratic:
         printf("Enter a: "); scanf("%f", &firstParam);
         printf("Enter b: "); scanf("%f", &secondParam);
         printf("Enter c: "); scanf("%f", &thirdParam);
-        /* TODO ...*/
-
         break;
     case FractionLinear:
         printf("Enter x: ");
         scanf("%f", &firstParam);
         secondParam = INFINITY;
         thirdParam =  INFINITY;
-        /* TODO ...*/
         break;
     }
 
-    printf("[DEBUG]   params = %.2f %.2f %.2f", firstParam, secondParam, thirdParam);
+    char* command = (char*)malloc(128*sizeof(char));
+    sprintf(command,
+        "gcc ../builder.c ../functions.c -o program -lglut -lGLU -lGL -lm; ./program %d %f %f %f; rm program",
+        ftype, firstParam, secondParam, thirdParam);
 
-    /* Call build.c with params. */
+    system(command);
 
+    free(command);
     return 0;
 }

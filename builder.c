@@ -11,17 +11,17 @@
 #include "functions.h"
 
 void init();
-void drawQuadratic(dot2f* function);
-void drawLinear(dot2f* function);
-void drawFractionLinear(dot2f* function);
+void drawQuadratic(dot2f *function);
+void drawLinear(dot2f *function);
+void drawFractionLinear(dot2f *function);
 void initDraw();
 
 static const float size_of_square = 0.05;
-static dot2f* buffer = NULL;
+static dot2f *buffer = NULL;
 static size_t sizeOfBuff = 0;
 funcType_t functionType;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     if (argc < 5) {
         printf("Not enough arguments.\n");
         printf("Example: ./builder <FType: int> <param1: float> <param2: float> <param3: float>\n");
@@ -36,17 +36,17 @@ int main(int argc, char* argv[]) {
 
     switch (functionType) {
     case Linear:
-        buffer = (dot2f*)malloc(sizeof(dot2f)*2);
+        buffer = (dot2f *)malloc(sizeof(dot2f) * 2);
         sizeOfBuff = 2;
         linearFunc(buffer, param1, param2);
         break;
     case Quadratic:
-        buffer = (dot2f*)malloc(sizeof(dot2f)*7);
+        buffer = (dot2f *)malloc(sizeof(dot2f) * 7);
         sizeOfBuff = 7;
         quadraticFunc(buffer, param1, param2, param3);
         break;
     case FractionLinear:
-        buffer = (dot2f*)malloc(sizeof(dot2f)*6);
+        buffer = (dot2f *)malloc(sizeof(dot2f) * 6);
         sizeOfBuff = 6;
         fractionLinearFunc(buffer, param1);
         break;
@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
         exit(1);
         break;
     }
-    
+
     /* init main window */
     glutInit(&argc, argv);
     glEnable(GL_DEBUG_CALLBACK_FUNCTION);
@@ -64,30 +64,24 @@ int main(int argc, char* argv[]) {
     glutCreateWindow("Function Graphic Builder");
     glutDisplayFunc(init);
 
-
     glutMainLoop(); /* this is like a `return`, after this line code does now work */
     free(buffer);
     return 0;
 }
 
 void initDraw() {
-    /* glLineWidth(5); does not work */
-    glColor3f(1,0,0);
+    glLineWidth(4);
+    glColor3f(1, 0, 0);
     glBegin(GL_LINES);
 }
 
-void drawQuadratic(dot2f* function) {
-    initDraw();
+void drawQuadratic(dot2f *function) {
     float x01, x02;
     /* OH MY GOD.. */
     x01 = function[1].x;
     x02 = function[2].x;
-    if (!isinf(x01)) {
-        x01 *= size_of_square;
-    }
-    if (!isinf(x02)) {
-        x02 *= size_of_square;
-    }
+    if (!isinf(x01)) { x01 *= size_of_square; }
+    if (!isinf(x02)) { x02 *= size_of_square; }
 
     glVertex2f(function[3].x * size_of_square, function[3].y * size_of_square);
     if (function[4].y * size_of_square > 0 && !isinf(x01)) {
@@ -114,15 +108,11 @@ void drawQuadratic(dot2f* function) {
         glVertex2f(function[6].x * size_of_square, function[6].y * size_of_square);
     }
 }
-void drawLinear(dot2f* function) {
-    initDraw();
+void drawLinear(dot2f *function) {
     for (size_t i = 0; i < 2; i++)
         glVertex2f(function[i].x * size_of_square, function[i].y * size_of_square);
-    glEnd();
-    glFlush();
 }
-void drawFractionLinear(dot2f* function) {
-    initDraw();
+void drawFractionLinear(dot2f *function) {
     /* Pizdec nahoi blyat.. */
     glVertex2f(function[0].x * size_of_square, function[0].y * size_of_square);
     glVertex2f(function[1].x * size_of_square, function[1].y * size_of_square);
@@ -167,8 +157,10 @@ void init() {
         glVertex2f(1, i);
     }
 
-    switch (functionType)
-    {
+    glEnd();
+    glFlush();
+    initDraw();
+    switch (functionType) {
     case Linear:
         drawLinear(buffer);
         break;
