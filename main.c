@@ -2,13 +2,13 @@
 
 int main() {
     int choice;
-    printf("Welcome to Function Graphic Builder.     \n");
-    printf("What function do you want to draw?       \n");
-    printf("1. Linear function: y = kx+b             \n");
-    printf("2. Quadratic function: y = ax^2 + bx + c \n");
-    printf("3. Fraction Linear function: y = k/x     \n");
+    funcType_t ftype;
+    printf("      Welcome to Function Graphic Builder.      \n");
+    printf("What function do you want to draw?              \n");
+    printf("1. Linear function:           y = kx + b        \n");
+    printf("2. Quadratic function:        y = ax^2 + bx + c \n");
+    printf("3. Fraction Linear function:  y = k/x           \n");
     scanf("%d", &choice);
-    enum funcType ftype;
 
     while (1) {
         switch (choice) {
@@ -52,9 +52,11 @@ int main() {
 
     char* command = (char*)malloc(128*sizeof(char));
     sprintf(command,
-        "gcc ../builder.c ../functions.c -o program -lglut -lGLU -lGL -lm; ./program %d %f %f %f; rm program",
-        ftype, firstParam, secondParam, thirdParam);
+        "gcc ../builder.c ../functions.c -o program -g -lglut -lGLU -lGL -lm; ./program %d %f %f %f;",
+        ftype, firstParam, secondParam, thirdParam); /* i removed `rm program` statemant because i don't want to compile program every time */
 
+    printf("Please, wait, this might take several seconds...\n");
+    //fflush(stdout);
     system(command);
 
     free(command);

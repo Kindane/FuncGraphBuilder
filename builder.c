@@ -11,24 +11,24 @@
 #include "functions.h"
 
 void init();
-void drawQuadratic(dot2f *function);
-void drawLinear(dot2f *function);
-void drawFractionLinear(dot2f *function);
+void drawQuadratic(dot2f* function);
+void drawLinear(dot2f* function);
+void drawFractionLinear(dot2f* function);
 void initDraw();
 
 static const float size_of_square = 0.05;
-static dot2f *buffer = NULL;
-static size_t sizeOfBuff = 0;
+static dot2f* buffer = NULL;
 funcType_t functionType;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     if (argc < 5) {
         printf("Not enough arguments.\n");
         printf("Example: ./builder <FType: int> <param1: float> <param2: float> <param3: float>\n");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     float param1, param2, param3;
+    int dotsCount = 0;
     functionType = atoi(argv[1]);
     param1 = atof(argv[2]);
     param2 = atof(argv[3]);
@@ -37,17 +37,17 @@ int main(int argc, char *argv[]) {
     switch (functionType) {
     case Linear:
         buffer = (dot2f *)malloc(sizeof(dot2f) * 2);
-        sizeOfBuff = 2;
+        dotsCount = 2;
         linearFunc(buffer, param1, param2);
         break;
     case Quadratic:
-        buffer = (dot2f *)malloc(sizeof(dot2f) * 7);
-        sizeOfBuff = 7;
+        buffer = (dot2f*)malloc(sizeof(dot2f) * 7);
+        dotsCount = 7;
         quadraticFunc(buffer, param1, param2, param3);
         break;
     case FractionLinear:
-        buffer = (dot2f *)malloc(sizeof(dot2f) * 6);
-        sizeOfBuff = 6;
+        buffer = (dot2f*)malloc(sizeof(dot2f) * 6);
+        dotsCount = 6;
         fractionLinearFunc(buffer, param1);
         break;
     default:
@@ -55,6 +55,13 @@ int main(int argc, char *argv[]) {
         exit(1);
         break;
     }
+
+
+    for (int i = 0; i < dotsCount; i++) {
+        printf("%d - ", i+1);
+        showDot2f(&buffer[i]);
+    }
+    
 
     /* init main window */
     glutInit(&argc, argv);
@@ -64,7 +71,7 @@ int main(int argc, char *argv[]) {
     glutCreateWindow("Function Graphic Builder");
     glutDisplayFunc(init);
 
-    glutMainLoop(); /* this is like a `return`, after this line code does now work */
+    glutMainLoop(); 
     free(buffer);
     return 0;
 }
@@ -76,36 +83,55 @@ void initDraw() {
 }
 
 void drawQuadratic(dot2f *function) {
-    float x01, x02;
-    /* OH MY GOD.. */
+    float x01, x02; /* first and second X0's */
+    dot2f startDot, firstDot, secondDot, thirdDot, fourthDot;
+    startDot = function[0];
+    firstDot = function[3];
+    secondDot = function[4];
+    thirdDot = function[5];
+    fourthDot = function[6];
+
+    startDot.x *= size_of_square;
+    startDot.y *= size_of_square;
+    firstDot.x *= size_of_square;
+    firstDot.y *= size_of_square;
+    secondDot.x *= size_of_square;
+    secondDot.y *= size_of_square;
+    thirdDot.x *= size_of_square;
+    thirdDot.y *= size_of_square;
+    fourthDot.x *= size_of_square;
+    fourthDot.y *= size_of_square;
+
     x01 = function[1].x;
     x02 = function[2].x;
-    if (!isinf(x01)) { x01 *= size_of_square; }
-    if (!isinf(x02)) { x02 *= size_of_square; }
+    if (!isinf(x01))
+        x01 *= size_of_square;
+    if (!isinf(x02))
+        x02 *= size_of_square;
 
-    glVertex2f(function[3].x * size_of_square, function[3].y * size_of_square);
-    if (function[4].y * size_of_square > 0 && !isinf(x01)) {
-        glVertex2f(function[4].x * size_of_square, function[4].y * size_of_square);
+    glVertex2f(firstDot.x, firstDot.y);
+    if (secondDot.y < 0 && !isinf(x01)) {
+        glVertex2f(secondDot.x, secondDot.y);
         glVertex2f(x01, 0); /* end of past */
         glVertex2f(x01, 0); /* start of new */
     }
     else {
-        glVertex2f(function[4].x * size_of_square, function[4].y * size_of_square);
+        glVertex2f(secondDot.x, secondDot.y);
     }
-    glVertex2f(function[4].x * size_of_square, function[4].y * size_of_square); /* connect last point to init dot */
-    glVertex2f(function[0].x * size_of_square, function[0].y * size_of_square); /* connect last point to init dot */
+    glVertex2f(secondDot.x, secondDot.y); /* connect last point to init dot */
+    glVertex2f(startDot.x, startDot.y); /* connect last point to init dot */
 
-    glVertex2f(function[0].x * size_of_square, function[0].y * size_of_square);
-    glVertex2f(function[5].x * size_of_square, function[5].y * size_of_square);
-    glVertex2f(function[5].x * size_of_square, function[5].y * size_of_square);
+    glVertex2f(startDot.x, startDot.y);
+    glVertex2f(thirdDot.x, thirdDot.y);
+    glVertex2f(thirdDot.x, thirdDot.y);
 
-    if (function[6].y * size_of_square > 0 && !isinf(x02)) {
+    if (fourthDot.y < 0 && !isinf(x02)) {
         glVertex2f(x02, 0); /* end of past */
         glVertex2f(x02, 0); /* start of new */
-        glVertex2f(function[6].x * size_of_square, function[6].y * size_of_square);
+        glVertex2f(fourthDot.x, fourthDot.y);
     }
     else {
-        glVertex2f(function[6].x * size_of_square, function[6].y * size_of_square);
+        glVertex2f(fourthDot.x, fourthDot.y);
     }
 }
 void drawLinear(dot2f *function) {

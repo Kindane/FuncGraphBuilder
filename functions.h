@@ -32,7 +32,7 @@ void linearFunc(dot2f* buf, float k, float b);
  * QUADRATIC FUNCTION:
  * f(x) = ax^2 + bx + c
  * https://math-prosto.ru/?page=pages/quadratic_function/quadratic_function_how_to_draw_parabola.php
- * if (a == 0) returns NULL;
+ * if (a == 0) sets BUF to NULL and return;
  * returns array with array[0] as init dot,
  * array[0] and array[1] is a NULL-dots (x=0;y=something),
  * if func has only 1 NULL-dot or do not have NULL-dots
@@ -43,13 +43,13 @@ void quadraticFunc(dot2f* buf, float a, float b, float c);
 
 /*
  * Fractional Linear Function
- * y = k/x
+ * f(x) = k/x
  * https://encyclopedia2.thefreedictionary.com/Linear+Fractional+Function
- * if (k == 0) returns NULL;
- * returns array with array[0]...array[2] is a first func
- * and array[3]...array[5] is a second func
+ * if (k == 0) sets BUF to NULL and return;
+ * returns array with array[0]...array[2] is a first arc
+ * and array[3]...array[5] is a second arc
  */
 void fractionLinearFunc(dot2f* buf, float k);
 
 
-#endif //_DOT_H_ 1
+#endif // _FUNCTIONS_H

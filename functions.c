@@ -16,10 +16,10 @@ void showDot2f(dot2f* dot) {
  */
 void linearFunc(dot2f* buf, float k, float b) {
     dot2f resultArr[2];
-    memset(resultArr, 0, 5);
+    memset(resultArr, 0, 2);
 
-    initDot2f(&resultArr[0], -10, -10*k+b);
-    initDot2f(&resultArr[1], 10, 10*k+b);
+    initDot2f(&resultArr[0], -10, -10 * k + b);
+    initDot2f(&resultArr[1], 10, 10 * k + b);
 
     memcpy(buf, &resultArr, sizeof(dot2f)*2);
 }
@@ -35,11 +35,11 @@ void fractionLinearFunc(dot2f* buf, float k) {
         return;
     }
     dot2f resultArr[6];
-    memset(resultArr, 0, 5);
+    memset(resultArr, 0, 6);
 
-    for (int i = 0, value = -3; i < 6; i++, value++) {
-        if (value == 0) value++;
-        initDot2f(&resultArr[i], value, k/value);
+    for (int i = 0, value = -6; i < 6; i++, value+=2) {
+        if (value == 0) value+=2;
+        initDot2f(&resultArr[i], value, k / value);
     }
 
     memcpy(buf, &resultArr, sizeof(dot2f)*6);
@@ -59,31 +59,35 @@ void quadraticFunc(dot2f* buf, float a, float b, float c) {
     float x0, y0;
     memset(resultArr, 0, 7);
     x0 = -b / (2 * a);
-    y0 = a*pow(x0, 2) + b*x0 + c; /* y0 = a*x0^2 + b*x0 + c */
+    y0 = a * pow(x0, 2) + b * x0 + c; /* y0 = a*x0^2 + b*x0 + c */
     initDot2f(&resultArr[0], x0, y0);
 
-    /* finding a discriminant. D = b^2 - 4ac
+    /*
+     * finding a discriminant. D = b^2 - 4ac
      * x1 = (-b + sqrt(D)) / 2a
      * x2 = (-b - sqrt(D)) / 2a
      */
-    float D = pow(b, 2) - (4*a*c); /* discriminant */
-    if (D < 0) { /* if discriminant < 0 then there is no X */
+    float D = pow(b, 2) - (4 * a * c); /* discriminant */
+    if (D < 0) { /* if discriminant < 0 then there is no X's */
         initDot2f(&resultArr[1], INFINITY, INFINITY);
         initDot2f(&resultArr[2], INFINITY, INFINITY);
     }
     else if (D == 0) { /* if discriminant=0 then there is only one X */
-        initDot2f(&resultArr[1], -b / 2*a, 0);
+        initDot2f(&resultArr[1], -b / 2 * a, 0);
         initDot2f(&resultArr[2], INFINITY, 0);
     }
-    else {
-        initDot2f(&resultArr[1], (-b - sqrt(D)) / 2*a, 0);
-        initDot2f(&resultArr[2], (-b + sqrt(D)) / 2*a, 0);
+    else { /* if discriminant > 0 then there is two X's */
+        initDot2f(&resultArr[1], (-b - sqrt(D)) / 2 * a, 0);
+        initDot2f(&resultArr[2], (-b + sqrt(D)) / 2 * a, 0);
     }
 
     for (int i = 3, index = -2; i < 7; i++, index++) {
-        float value = x0+index;
-        if (value == x0) { value++; index++;}
-        initDot2f(&resultArr[i], value, a*pow(value, 2) + b*value + c); 
+        float value = x0 + index;
+        if (value == x0) {
+            value++;
+            index++;
+        }
+        initDot2f(&resultArr[i], value, a * pow(value, 2) + b * value + c);
     }
 
     memcpy(buf, &resultArr, sizeof(dot2f)*7);
