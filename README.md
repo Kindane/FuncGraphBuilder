@@ -1,33 +1,30 @@
 # Function Graphic Builder
 
-Построение графиков функций. Вы можете посторить график таких функций:
-Квадратная, Линейная, Дробно-Линейная.
+[Russian version of readme](README-RUS.md)<br>
+You can draw: Linear, Quadratic and Fraction-Linear functions.
+
 
 ## Dependencies
 
-У вас должен быть установлен  `openGL` и `cmake`.
+You need to install:  `openGL` and `cmake`.
 
 ## Installation
 
-В первую очередь вам нужно будет клонировать данный
-git-репозиторий себе на устройство, потом перейти в
-директорию с репозиторием и проделать следующие шаги:
+Firstly you need to clone this repository to your
+PC, then:
 1. **mkdir build**
 2. **cd build**
 3. **cmake ..**
 
 ## Starting
 
-Перед запуском у вас уже должен быть собран проект.<br>
-Далее вам нужно (находясь в папке *build*):
+(inside `build` directory):
 1. **make**
 2. **./fgb**
 
-fgb это аббревиатура от Function Graphic Builder.<br>
-**Когда у вас запустится приложение внимательно читайте**
-**и следуйте инструкциям.**
+*fgb* it's an abbreviature of Function Graphic Builder.<br>
+**When app starts you need to follow the instructions**
 
 ## License
 
-Вы можете свободно использовать/распростронять данный проект
-отмечая при этом автора (меня, Kindane)
+You can use this app/code in your projects with a mention of the author (me, Kindane)
