@@ -34,10 +34,10 @@ void linearFunc(dot2f* buf, float k, float b);
  * https://math-prosto.ru/?page=pages/quadratic_function/quadratic_function_how_to_draw_parabola.php
  * if (a == 0) sets BUF to NULL and return;
  * returns array with array[0] as init dot,
- * array[0] and array[1] is a NULL-dots (x=0;y=something),
+ * array[1] and array[2] is a NULL-dots (x=0;y=something),
  * if func has only 1 NULL-dot or do not have NULL-dots
- * array[0].x = INFINITY and array[1].x = INFINITY (Y too)
- * array[2]...array[6] is a function dots, a-ka (x=-1;y=4)
+ * array[1].x = INFINITY and array[2].x = INFINITY (Y too)
+ * array[3]...array[7] is a function dots, a-ka (x=-1;y=4)
  */
 void quadraticFunc(dot2f* buf, float a, float b, float c);
 
