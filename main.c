@@ -50,13 +50,12 @@ int main() {
         break;
     }
 
-    char* command = (char*)malloc(128*sizeof(char));
+    char* command = calloc(sizeof(char), 128);
     sprintf(command,
         "gcc ../builder.c ../functions.c -o program -g -lglut -lGLU -lGL -lm; ./program %d %f %f %f;",
-        ftype, firstParam, secondParam, thirdParam); /* i removed `rm program` statemant because i don't want to compile program every time */
+        ftype, firstParam, secondParam, thirdParam);
 
     printf("Please, wait, this might take several seconds...\n");
-    //fflush(stdout);
     system(command);
 
     free(command);

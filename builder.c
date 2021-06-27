@@ -2,13 +2,12 @@
  * gcc -v: 10.2.0
  */
 
-/*
-* TODO: REFACTOR THIS F*CKING SHIT! OH MY EYES THIS HORRIBLE!! 
-*/
 
 #include <stdio.h>
 #include <GL/glut.h>
 #include "functions.h"
+
+#define NORMALIZE_VAL(val) ((val) * (size_of_square))
 
 void init();
 void drawQuadratic(dot2f* function);
@@ -36,18 +35,18 @@ int main(int argc, char* argv[]) {
 
     switch (functionType) {
     case Linear:
-        buffer = (dot2f *)malloc(sizeof(dot2f) * 2);
         dotsCount = 2;
+        buffer = calloc(sizeof(dot2f), dotsCount);
         linearFunc(buffer, param1, param2);
         break;
     case Quadratic:
-        buffer = (dot2f*)malloc(sizeof(dot2f) * 7);
         dotsCount = 7;
+        buffer = calloc(sizeof(dot2f), dotsCount);
         quadraticFunc(buffer, param1, param2, param3);
         break;
     case FractionLinear:
-        buffer = (dot2f*)malloc(sizeof(dot2f) * 6);
         dotsCount = 6;
+        buffer = calloc(sizeof(dot2f), dotsCount);
         fractionLinearFunc(buffer, param1);
         break;
     default:
@@ -61,7 +60,7 @@ int main(int argc, char* argv[]) {
         printf("%d - ", i+1);
         showDot2f(&buffer[i]);
     }
-    
+
 
     /* init main window */
     glutInit(&argc, argv);
@@ -134,20 +133,21 @@ void drawQuadratic(dot2f *function) {
         glVertex2f(fourthDot.x, fourthDot.y);
     }
 }
+
 void drawLinear(dot2f *function) {
     for (size_t i = 0; i < 2; i++)
-        glVertex2f(function[i].x * size_of_square, function[i].y * size_of_square);
+        glVertex2f(NORMALIZE_VAL(function[i].x), NORMALIZE_VAL(function[i].y));
 }
+
 void drawFractionLinear(dot2f *function) {
-    /* Pizdec nahoi blyat.. */
-    glVertex2f(function[0].x * size_of_square, function[0].y * size_of_square);
-    glVertex2f(function[1].x * size_of_square, function[1].y * size_of_square);
-    glVertex2f(function[1].x * size_of_square, function[1].y * size_of_square);
-    glVertex2f(function[2].x * size_of_square, function[2].y * size_of_square);
-    glVertex2f(function[3].x * size_of_square, function[3].y * size_of_square);
-    glVertex2f(function[4].x * size_of_square, function[4].y * size_of_square);
-    glVertex2f(function[4].x * size_of_square, function[4].y * size_of_square);
-    glVertex2f(function[5].x * size_of_square, function[5].y * size_of_square);
+    glVertex2f(NORMALIZE_VAL(function[0].x), NORMALIZE_VAL(function[0].y));
+    glVertex2f(NORMALIZE_VAL(function[1].x), NORMALIZE_VAL(function[1].y));
+    glVertex2f(NORMALIZE_VAL(function[1].x), NORMALIZE_VAL(function[1].y));
+    glVertex2f(NORMALIZE_VAL(function[2].x), NORMALIZE_VAL(function[2].y));
+    glVertex2f(NORMALIZE_VAL(function[3].x), NORMALIZE_VAL(function[3].y));
+    glVertex2f(NORMALIZE_VAL(function[4].x), NORMALIZE_VAL(function[4].y));
+    glVertex2f(NORMALIZE_VAL(function[4].x), NORMALIZE_VAL(function[4].y));
+    glVertex2f(NORMALIZE_VAL(function[5].x), NORMALIZE_VAL(function[5].y));
 }
 
 void init() {
